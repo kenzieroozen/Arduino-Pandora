@@ -12,7 +12,7 @@ int distance() {
   digitalWrite(trigger, LOW);
   delayMicroseconds(2);
 
-  digitalWrite(trigger, HIGH);
+  digitalWrite(trigger, HIGH);  
   delayMicroseconds(10);
   digitalWrite(trigger, LOW);
 
@@ -41,24 +41,25 @@ int nomorSampah = 0;
 int adaSampah = 0;
 
 void loop() {
-  metal = digitalRead(sensor);
   jarakBenda = distance();
-  Serial.println(jarakBenda);
-  Serial.println(adaSampah);
 
   delay(1000);
+  metal = digitalRead(sensor);
 
   if (jarakBenda < 10 && adaSampah == 0) {
     nomorSampah += 1;
     adaSampah = 1;
     Serial.print("Sampah #");
     Serial.print(nomorSampah);
-    Serial.println(" terdeteksi.");
+    Serial.print(" terdeteksi. ");
+    Serial.print(jarakBenda);
+    Serial.println(" cm");
+  
 
     if (metal == 0) {  //deteksi metal
       Serial.println("Metal detected");
       microServo.write(90);
-      
+
       delay(3000);
       microServo.write(45);
     } else {
@@ -69,12 +70,11 @@ void loop() {
       microServo.write(45);
     }
 
-    Serial.println("delaying signal");
     delay(5000);
 
     adaSampah = 0;
     Serial.println("Success reset");
   }
-  
-  delay(5000);
+
+  delay(2000);
 }
